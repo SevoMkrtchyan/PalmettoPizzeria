@@ -1,5 +1,9 @@
 import model.*;
-import service.impl.*;
+import service.impl.CustomerServiceImpl;
+import service.impl.IngredientServiceImpl;
+import service.impl.OrderServiceImpl;
+import service.impl.PizzaServiceImpl;
+import util.CheckPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,22 +14,15 @@ public class Main {
     private static CustomerServiceImpl customerService = new CustomerServiceImpl();
     private static PizzaServiceImpl pizzaService = new PizzaServiceImpl();
     private static OrderServiceImpl orderService = new OrderServiceImpl();
-    private static MainServiceImpl mainService = new MainServiceImpl();
 
     public static void main(String[] args) {
         ingredientService.saveIngredients();
         pizzaService.savePizzas();
 
         // ordering pizza
-        Customer poxos = customerService.save(Customer.builder()
-                .name("Poxos")
-                .build());
-        Customer petros = customerService.save(Customer.builder()
-                .name("Petros")
-                .build());
-        Customer vahe = customerService.save(Customer.builder()
-                .name("Vahe")
-                .build());
+        Customer poxos = customerService.save(new Customer("Poxos"));
+        Customer petros = customerService.save(new Customer("Petros"));
+        Customer vahe = customerService.save(new Customer("Vahe"));
 
         System.out.println(poxos.getName() + " wants to order pizza");
         System.out.println("Generating order");
@@ -49,24 +46,20 @@ public class Main {
         ingredientList1.add(ingredientService.findByName("Pepperoni"));
         ingredientList1.add(ingredientService.findByName("Olives"));
 
-        Pizza hamov = pizzaService.save(new Pizza("hamov", ingredientList, 2, PizzaType.REGULAR, PizzaBase.BASE));
-        Pizza anham = pizzaService.save(new Pizza("anham", ingredientList1, 5, PizzaType.REGULAR, PizzaBase.CALZONE));
+        Pizza hamov = pizzaService.save(new Pizza("hamov", ingredientList, 2, PizzaType.REGULAR));
+        Pizza anham = pizzaService.save(new Pizza("anham", ingredientList1, 5, PizzaType.CALZONE));
 
         List<Pizza> pizzas = new ArrayList<>();
         pizzas.add(hamov);
         pizzas.add(anham);
 
-        Order build = Order.builder()
-                .customer(poxos)
-                .pizzas(pizzas)
-                .build();
-        Order order = orderService.save(build);
+        Order order = orderService.save(new Order(poxos,pizzas));
 
         System.out.println("---------------------------------------");
-        String s = mainService.displayPizzaAttributes(order);
+        String s = pizzaService.displayPizzaAttributes(order);
         System.out.println(s);
         System.out.println("---------------------------------------");
-        String check = mainService.printCheck(order);
+        String check = CheckPrinter.printCheck(order);
         System.out.println(check);
         System.out.println("----------------------------------------");
         List<Pizza> pizzaList = pizzaService.findAll();
@@ -89,7 +82,7 @@ public class Main {
         }
         vaheOrder.setPizzas(vahePizzas);
         orderService.save(vaheOrder);
-        String printCheck = mainService.printCheck(vaheOrder);
+        String printCheck = CheckPrinter.printCheck(vaheOrder);
         System.out.println("Vahe's order check");
         System.out.println(printCheck);
         System.out.println("----------------------------------------");
@@ -104,7 +97,7 @@ public class Main {
         }
         petrosOrder.setPizzas(petrosPizzas);
         orderService.save(petrosOrder);
-        String petrosCheck = mainService.printCheck(petrosOrder);
+        String petrosCheck = CheckPrinter.printCheck(petrosOrder);
         System.out.println("Petros's order check");
         System.out.println(petrosCheck);
         System.out.println("----------------------------------------");
