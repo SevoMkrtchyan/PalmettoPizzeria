@@ -26,9 +26,18 @@ public class CheckPrinter {
             }
             check.append("----------------").append("\n");
             check.append("Amount: ").append(amount).append("\n");
-            check.append("Quantity: ").append(pizza.getQuantity()).append("\n");
+            int quantity = 0;
+//            Set<Pizza> pizzas = order.getPizzasQuantity().keySet();
+
+            if (order.getPizzasQuantity() != null) {
+                if (order.getPizzasQuantity().containsKey(pizza)) {
+                    quantity = order.getPizzasQuantity().get(pizza);
+                }
+            }
+
+            check.append("Quantity: ").append(quantity).append("\n");
             check.append("----------------").append("\n");
-            totalAmount += amount * pizza.getQuantity();
+            totalAmount += amount * quantity;
         }
         check.append("Total Amount: ").append(totalAmount).append("\n");
         check.append("*************************").append("\n");

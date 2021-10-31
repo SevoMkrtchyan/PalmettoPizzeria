@@ -8,20 +8,18 @@ public class Pizza {
     private int id;
     private String name;
     private List<Ingredient> ingredients;
-    private int quantity;
     private PizzaType type;
 
     public Pizza() {
     }
 
-    public Pizza(String name, List<Ingredient> ingredients, int quantity, PizzaType type) {
+    public Pizza(String name, List<Ingredient> ingredients, PizzaType type) {
         this.name = name;
-        if (ingredients.size() > 7) {
+        if (ingredients.size() > 10) {
             this.ingredients = ingredients.subList(0, 10);
         } else {
             this.ingredients = ingredients;
         }
-        this.quantity = quantity;
         this.type = type;
     }
 
@@ -49,14 +47,6 @@ public class Pizza {
         this.ingredients = ingredients;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public PizzaType getType() {
         return type;
     }
@@ -65,17 +55,18 @@ public class Pizza {
         this.type = type;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pizza pizza = (Pizza) o;
-        return id == pizza.id && quantity == pizza.quantity && Objects.equals(name, pizza.name) && Objects.equals(ingredients, pizza.ingredients) && type == pizza.type;
+        return id == pizza.id && Objects.equals(name, pizza.name) && Objects.equals(ingredients, pizza.ingredients) && type == pizza.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, ingredients, quantity, type);
+        return Objects.hash(id, name, ingredients, type);
     }
 
     @Override
@@ -84,7 +75,6 @@ public class Pizza {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", ingredients=" + ingredients +
-                ", quantity=" + quantity +
                 ", type=" + type +
                 '}';
     }
