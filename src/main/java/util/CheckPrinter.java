@@ -32,11 +32,14 @@ public class CheckPrinter {
                 if (order.getPizzasQuantity().containsKey(pizza)) {
                     quantity = order.getPizzasQuantity().get(pizza);
                 }
+                check.append("Quantity: ").append(quantity).append("\n");
+                check.append("----------------").append("\n");
+                totalAmount += amount * quantity;
+            } else {
+                check.append("Quantity: ").append(quantity).append("\n");
+                check.append("----------------").append("\n");
+                totalAmount += amount;
             }
-
-            check.append("Quantity: ").append(quantity).append("\n");
-            check.append("----------------").append("\n");
-            totalAmount += amount * quantity;
         }
         check.append("Total Amount: ").append(totalAmount).append("\n");
         check.append("*************************").append("\n");
