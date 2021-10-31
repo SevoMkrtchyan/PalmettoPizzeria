@@ -27,7 +27,6 @@ public class CheckPrinter {
             check.append("----------------").append("\n");
             check.append("Amount: ").append(amount).append("\n");
             int quantity = 0;
-//            Set<Pizza> pizzas = order.getPizzasQuantity().keySet();
 
             if (order.getPizzasQuantity() != null) {
                 if (order.getPizzasQuantity().containsKey(pizza)) {
