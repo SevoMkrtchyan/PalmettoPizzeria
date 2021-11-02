@@ -23,8 +23,8 @@ public class OrderServiceImpl implements OrderService {
             if (pizza.getName().toCharArray().length >= 4 && pizza.getName().toCharArray().length <= 20) {
                 if (!pizza.getName().matches("^[A-Za-z]+$")) {
                     pizza.setName(order.getCustomer().getName() + "_" + pizza.getId());
+                    pizza = pizzaRepository.save(pizza);
                 }
-                pizza = pizzaRepository.save(pizza);
                 pizzas.add(pizza);
             }
         }

@@ -6,7 +6,9 @@ import service.impl.PizzaServiceImpl;
 import util.CheckPrinter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -46,15 +48,21 @@ public class Main {
         ingredientList1.add(ingredientService.findByName("Pepperoni"));
         ingredientList1.add(ingredientService.findByName("Olives"));
 
-        Pizza hamov = pizzaService.save(new Pizza("hamov", ingredientList, 2, PizzaType.REGULAR));
-        Pizza anham = pizzaService.save(new Pizza("anham", ingredientList1, 5, PizzaType.CALZONE));
+        Pizza hamov = pizzaService.save(new Pizza("hamov", ingredientList, PizzaType.REGULAR));
+        Pizza anham = pizzaService.save(new Pizza("anham", ingredientList1, PizzaType.CALZONE));
 
         List<Pizza> pizzas = new ArrayList<>();
         pizzas.add(hamov);
         pizzas.add(anham);
+        System.out.println("pordznakan"+hamov);
 
-        Order order = orderService.save(new Order(poxos,pizzas));
-
+        Map<Pizza, Integer> quantity1 = new HashMap<>();
+        quantity1.put(hamov, 5);
+        quantity1.put(anham, 3);
+        System.out.println();
+        System.out.println("pordznakan"+hamov);
+        Order order = orderService.save(new Order(poxos, pizzas, quantity1));
+        System.out.println(order);
         System.out.println("---------------------------------------");
         String s = pizzaService.displayPizzaAttributes(order);
         System.out.println(s);
@@ -69,17 +77,20 @@ public class Main {
         Order vaheOrder = new Order();
         vaheOrder.setCustomer(vahe);
         List<Pizza> vahePizzas = new ArrayList<>();
+        Map<Pizza, Integer> vahePizzasCount = new HashMap<>();
         Pizza margarita = pizzaService.findByName("Margarita");
-        Pizza pepperoniOro = pizzaService.findByName("PepperoniOro");
         if (margarita != null) {
-            margarita.setQuantity(2);
             vahePizzas.add(margarita);
+            vahePizzasCount.put(margarita, 2);
         }
 
+        Pizza pepperoniOro = pizzaService.findByName("PepperoniOro");
         if (pepperoniOro != null) {
-            pepperoniOro.setQuantity(3);
             vahePizzas.add(margarita);
+            vahePizzasCount.put(pepperoniOro, 3);
         }
+
+        vaheOrder.setPizzasQuantity(vahePizzasCount);
         vaheOrder.setPizzas(vahePizzas);
         orderService.save(vaheOrder);
         String printCheck = CheckPrinter.printCheck(vaheOrder);
@@ -91,10 +102,15 @@ public class Main {
         petrosOrder.setCustomer(petros);
         List<Pizza> petrosPizzas = new ArrayList<>();
         Pizza basePZZ = pizzaService.findByName("BasePZZ");
+        Map<Pizza, Integer> petrosPizzasCount = new HashMap<>();
+
         if (basePZZ != null) {
-            basePZZ.setQuantity(12);
             petrosPizzas.add(basePZZ);
+            petrosPizzasCount.put(basePZZ, 12);
         }
+
+        petrosOrder.setPizzasQuantity(petrosPizzasCount);
+
         petrosOrder.setPizzas(petrosPizzas);
         orderService.save(petrosOrder);
         String petrosCheck = CheckPrinter.printCheck(petrosOrder);

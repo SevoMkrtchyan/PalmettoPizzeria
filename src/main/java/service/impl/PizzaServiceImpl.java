@@ -50,7 +50,9 @@ public class PizzaServiceImpl implements PizzaService {
     public String displayPizzaAttributes(Order order) {
         StringBuilder message = new StringBuilder();
         for (Pizza pizza : order.getPizzas()) {
-            message.append("[").append(order.getId()).append(" : ").append(order.getCustomer().getId()).append(" : ").append(pizza.getName()).append(" : ").append(pizza.getQuantity()).append("] \n");
+            message.append("[").append(order.getId()).append(" : ")
+                    .append(order.getCustomer().getId()).append(" : ")
+                    .append(pizza.getName()).append(" : ").append("] \n");
         }
         return String.valueOf(message);
     }
@@ -63,19 +65,19 @@ public class PizzaServiceImpl implements PizzaService {
         margaritaIngredients.add(ingredientRepository.findByName("Corn"));
         margaritaIngredients.add(ingredientRepository.findByName("Garlic"));
         margaritaIngredients.add(ingredientRepository.findByName("Bacon"));
-        pizzaRepository.save(new Pizza("Margarita", margaritaIngredients, 0, PizzaType.REGULAR));
+        pizzaRepository.save(new Pizza("Margarita", margaritaIngredients, PizzaType.REGULAR));
 
         List<Ingredient> basePzz = new ArrayList<>();
         basePzz.add(ingredientRepository.findByName("Tomato Paste"));
         basePzz.add(ingredientRepository.findByName("Cheese"));
         basePzz.add(ingredientRepository.findByName("Salami"));
         basePzz.add(ingredientRepository.findByName("Olives"));
-        pizzaRepository.save(new Pizza("BasePZZ", basePzz, 0, PizzaType.CALZONE));
+        pizzaRepository.save(new Pizza("BasePZZ", basePzz, PizzaType.CALZONE));
 
         List<Ingredient> pepperoniOro = new ArrayList<>();
         pepperoniOro.add(ingredientRepository.findByName("Pepperoni"));
         pepperoniOro.add(ingredientRepository.findByName("Tomato Paste"));
         pepperoniOro.add(ingredientRepository.findByName("Olives"));
-        pizzaRepository.save(new Pizza("PepperoniOro", pepperoniOro, 0, PizzaType.REGULAR));
+        pizzaRepository.save(new Pizza("PepperoniOro", pepperoniOro, PizzaType.REGULAR));
     }
 }

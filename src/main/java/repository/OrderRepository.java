@@ -15,18 +15,29 @@ public class OrderRepository implements GlobalRepository<Order> {
     public Order save(Order order) {
 
         int id = IdGenerator.generateId();
-        if (!orders.isEmpty()) {
-            for (Order orderFromDb : orders) {
-                if (orderFromDb.getId() == id) {
-                    break;
-                } else {
-                    order.setId(id);
+        if (order.getId() == 0) {
+            if (!orders.isEmpty()) {
+                for (Order orderFromDb : orders) {
+                    if (orderFromDb.getId() == id) {
+                        break;
+                    } else {
+                        order.setId(id);
+                    }
                 }
+            } else {
+                order.setId(id);
             }
+            orders.add(order);
         } else {
-            order.setId(id);
+            for (Order order1 : orders) {
+                order1.setCustomer(order.getCustomer());
+                order1.getPizzas().addAll(order.getPizzas());
+                order1.getPizzasQuantity().putAll(order1.getPizzasQuantity());
+                orders.add(order1);
+                order = order1;
+            }
         }
-        orders.add(order);
+
         return order;
     }
 
